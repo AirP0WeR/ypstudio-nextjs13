@@ -1,5 +1,4 @@
 
-
 .bd-placeholder-img {
   font-size: 1.125rem;
   text-anchor: middle;
@@ -52,8 +51,3 @@
   transform: translate(-50%, -50%);
   text-align: center;
 }
-
-/* .contactsContainer {
-  background-image: linear-gradient(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.45), url(/public/images/contacts/contacts.jpg));
-  background-position: "center";
-} */
