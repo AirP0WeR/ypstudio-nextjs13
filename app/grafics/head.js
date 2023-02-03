@@ -1,10 +1,10 @@
-import DefaultTags from './DefaultTags'
+import DefaultTags from '../DefaultTags'
 
 export default function Head() {
   return (
     <>
         <DefaultTags />
-        <title>YPStudio</title>
+        <title>Graphics</title>
 
     </>
   )

@@ -1,7 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect } from "react";
 
 export default function Header() {
+  useEffect(() => {
+    import("bootstrap/dist/js/bootstrap");
+  }, []);
+
   return (
     <header>
       <div className="collapse bg-dark" id="navbarHeader">
@@ -38,12 +45,12 @@ export default function Header() {
           </div>
         </div>
       </div>
+
       <div className="navbar navbar-light">
         <div className="container">
-          <Link href="/" className="navbar-brand d-flex py-5">
+          <Link href="/" className="navbar-brand d-flex py-4">
             <Image
               src="/images/YP-logo.svg"
-
               width={75}
               height={75}
               style={{
@@ -63,6 +70,7 @@ export default function Header() {
               </h1>
             </Link>
           </div>
+
           <button
             className="navbar-toggler"
             type="button"
