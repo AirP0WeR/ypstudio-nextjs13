@@ -16,9 +16,9 @@ export default function Page() {
   };
   const recaptchaRef = React.createRef();
 
-
   const notifySuccess = () => toast.success("Сообщение успешно отправлено!");
   const notifyFail = () => toast.error("Что-то пошл не так!");
+  const notifyNoCapcha = () => toast.error("Нажмите на галочку");
 
   async function sendTelegrammMessage() {
     const TELEGRAM_TOKEN = process.env.NEXT_PUBLIC_TELEGRAM_TOKEN;
@@ -39,34 +39,27 @@ export default function Page() {
   }
 
   const handleSubmit = () => {
+    const recaptchaValue = recaptchaRef.current.getValue();
+    console.log(recaptchaValue);
 
-    console.log(recaptchaRef.current);
-
-  
-  };
-
-  const onReCAPTCHAChange = (captchaCode) => {
-    // If the reCAPTCHA code is null or undefined indicating that
-    // the reCAPTCHA was expired then return early
-    if (!captchaCode) {
-
-
-      return;
+    if (recaptchaValue) {
+      console.log("есть галочка");
+      sendTelegrammMessage();
+      setName("Ваше имя");
+      setEmail("name@example.com");
+      setMessage("");
+      recaptchaRef.current.reset();
+    } else {
+      notifyNoCapcha();
+      console.log("нет галочки");
     }
-    // Else reCAPTCHA was executed successfully so proceed with the
-    // alert
-    alert(`Hey`);
-    sendTelegrammMessage();
-    // Reset the reCAPTCHA so that it can be executed again if user
-    // submits another email.
-    recaptchaRef.current.reset();
   };
 
   return (
     <div className="container">
       <Toaster
         containerStyle={{
-          top: 400,
+          top: 200,
         }}
       />
 
@@ -118,25 +111,24 @@ export default function Page() {
             </div>
             <div className="row">
               <div className="col">
+
+                
+                <ReCAPTCHA
+                  ref={recaptchaRef}
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY_LOCAL}
+                  // onChange={onReCAPTCHAChange}
+                />
+              </div>
+              <div className="col text-center">
                 <button
                   className="btn btn-secondary mt-4"
                   style={{ backgroundColor: "#929497" }}
                   onClick={() => {
-                    setName("Ваше имя");
-                    setEmail("name@example.com");
-                    setMessage("");
                     handleSubmit();
                   }}
                 >
                   Отправить
                 </button>
-              </div>
-              <div className="col mt-4">
-              <ReCAPTCHA
-                  ref={recaptchaRef}
-                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY_LOCAL}
-                  onChange={onReCAPTCHAChange}
-                />
               </div>
             </div>
           </div>
