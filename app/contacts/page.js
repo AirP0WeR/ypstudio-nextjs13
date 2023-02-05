@@ -5,6 +5,9 @@ import contacts from "/public/images/contacts/contacts.jpg";
 import ReCAPTCHA from "react-google-recaptcha";
 import React from "react";
 
+import telegramMessage from '/components/telegramMessage';
+import werifyCaptcha from '/components/werifyCaptcha';
+
 export default function Page() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -23,81 +26,39 @@ export default function Page() {
 
 
 
-  async function sendTelegrammMessage() {
-    const TELEGRAM_TOKEN = process.env.NEXT_PUBLIC_TELEGRAM_TOKEN;
+const submitEnquiryForm = async () => {
+  const gReCaptchaToken = recaptchaRef.current.getValue();
 
-    await fetch(
-      `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=175042839&text=${JSON.stringify(
-        toSend
-      )}`
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        if (result.ok === true) {
-          notifySuccess();
-        } else {
-          notifyFail();
-        }
-      });
-  }
+  if (gReCaptchaToken) {
+    // console.log(gReCaptchaToken);
+    // console.log("есть галочка, проверяю капчу");
+    const capchaStatus = await werifyCaptcha(gReCaptchaToken);
 
+    // console.log(`Это статус капчи: ${capchaStatus.status}`);
 
-  async function werifyCaptcha(response_key) {
-    const NEXT_PUBLIC_RECAPTCHA_PRIVATE_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_PRIVATE_SITE_KEY;
-
-    const url = `https://www.google.com/recaptcha/api/siteverify?secret=${NEXT_PUBLIC_RECAPTCHA_PRIVATE_SITE_KEY}&response=${response_key}`;
-    // Making POST request to verify captcha
-    await fetch(url, {
-      method: "post",
-    })
-      .then((response) => response.json())
-      .then((google_response) => {
-
-        // google_response is the object return by
-        // google as a response
-        if (google_response.success == true) {
-          //   if captcha is verified
-          return res.send({ response: "Successful" });
-        } else {
-          // if captcha is not verified
-          return res.send({ response: "Failed" });
-        }
-      })
-      .catch((error) => {
-        // Some error while verify captcha
-        return res.json({ error });
-      });
-  }
-
-
-
-
-
-
-
-
-
-  const handleSubmit = () => {
-    const recaptchaValue = recaptchaRef.current.getValue();
-
-    const result = werifyCaptcha(recaptchaValue);
-
-    console.log(result);
-
-    if (recaptchaValue) {
-      console.log("есть галочка");
-      sendTelegrammMessage();
-      setName("Ваше имя");
-      setEmail("name@example.com");
-      setMessage("");
-      console.log(recaptchaValue);
-      recaptchaRef.current.reset();
-
+    if (capchaStatus.status === "success") {
+      // отправить в телеграмм
+      // сделать тостер
+      const messageSendStatus = await telegramMessage(toSend);
+      if (messageSendStatus.ok === true) {
+        setName("Ваше имя");
+        setEmail("name@example.com");
+        setMessage("");
+        recaptchaRef.current.reset();
+        // console.log(`Это результат: ${messageStatus.ok}`);
+        notifySuccess();
+      } else {
+        notifyFail();
+      }
     } else {
-      notifyNoCapcha();
-      console.log("нет галочки");
+      notifyFail();
     }
-  };
+  } else {
+    notifyNoCapcha();
+    // console.log("нет галочки");
+  }
+};
+
 
 
   return (
@@ -170,7 +131,7 @@ export default function Page() {
                   className="btn btn-secondary mt-4"
                   style={{ backgroundColor: "#929497" }}
                   onClick={() => {
-                    handleSubmit();
+                    submitEnquiryForm();
                   }}
                 >
                   Отправить

@@ -61,7 +61,7 @@ export default function Page() {
                 <br />
                 "Мак", материал: холст/ масло, размер: 80х70 см, 2005 год.
                 <br />
-                <a href="{{ route('contacts') }}" className="link-secondary">
+                <a href="/contacts" className="link-secondary">
                   узнать цену
                 </a>
               </p>
