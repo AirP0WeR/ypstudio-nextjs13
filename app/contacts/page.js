@@ -14,11 +14,14 @@ export default function Page() {
     email: email,
     message: message,
   };
-  const recaptchaRef = React.createRef();
+  const recaptchaRef = React.createRef(null);
 
   const notifySuccess = () => toast.success("Сообщение успешно отправлено!");
   const notifyFail = () => toast.error("Что-то пошл не так!");
   const notifyNoCapcha = () => toast.error("Нажмите на галочку");
+  const NEXT_PUBLIC_RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+
+
 
   async function sendTelegrammMessage() {
     const TELEGRAM_TOKEN = process.env.NEXT_PUBLIC_TELEGRAM_TOKEN;
@@ -38,9 +41,48 @@ export default function Page() {
       });
   }
 
+
+  async function werifyCaptcha(response_key) {
+    const NEXT_PUBLIC_RECAPTCHA_PRIVATE_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_PRIVATE_SITE_KEY;
+
+    const url = `https://www.google.com/recaptcha/api/siteverify?secret=${NEXT_PUBLIC_RECAPTCHA_PRIVATE_SITE_KEY}&response=${response_key}`;
+    // Making POST request to verify captcha
+    await fetch(url, {
+      method: "post",
+    })
+      .then((response) => response.json())
+      .then((google_response) => {
+
+        // google_response is the object return by
+        // google as a response
+        if (google_response.success == true) {
+          //   if captcha is verified
+          return res.send({ response: "Successful" });
+        } else {
+          // if captcha is not verified
+          return res.send({ response: "Failed" });
+        }
+      })
+      .catch((error) => {
+        // Some error while verify captcha
+        return res.json({ error });
+      });
+  }
+
+
+
+
+
+
+
+
+
   const handleSubmit = () => {
     const recaptchaValue = recaptchaRef.current.getValue();
-    console.log(recaptchaValue);
+
+    const result = werifyCaptcha(recaptchaValue);
+
+    console.log(result);
 
     if (recaptchaValue) {
       console.log("есть галочка");
@@ -48,12 +90,15 @@ export default function Page() {
       setName("Ваше имя");
       setEmail("name@example.com");
       setMessage("");
+      console.log(recaptchaValue);
       recaptchaRef.current.reset();
+
     } else {
       notifyNoCapcha();
       console.log("нет галочки");
     }
   };
+
 
   return (
     <div className="container">
@@ -112,12 +157,13 @@ export default function Page() {
             <div className="row">
               <div className="col">
 
-                
                 <ReCAPTCHA
                   ref={recaptchaRef}
-                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY_LOCAL}
-                  // onChange={onReCAPTCHAChange}
+                  sitekey={NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                // onChange={onReCAPTCHAChange}
                 />
+
+
               </div>
               <div className="col text-center">
                 <button
@@ -135,5 +181,7 @@ export default function Page() {
         </div>
       </div>
     </div>
+
+
   );
 }
