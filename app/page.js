@@ -1,14 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import Head from "next/head";
 
 
 export default function Home() {
   return (
     <>
-    <Head />
-
-
     <div className="album py-2">
       <div className="container">
         <div className="row row-cols-1 row-cols-sm-2 g-4">
