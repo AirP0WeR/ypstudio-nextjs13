@@ -1,8 +1,10 @@
+'use client'
+
 import Script from "next/script";
 
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
-export default function gAnalitycs() {
+export default function GAnalitycs() {
   return (
     <>
       {/* <!-- Google tag (gtag.js) -->        */}
