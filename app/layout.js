@@ -3,7 +3,6 @@ import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "./header";
 import Footer from "./footer";
-import GAnalitycs from '/components/gAnalitycs';
 
 
 export default function RootLayout({ children }) {
@@ -19,7 +18,6 @@ export default function RootLayout({ children }) {
         <main> {children}</main>
 
         <Footer />
-        <GAnalitycs/>
       </body>
     </html>
   );
