@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  const TELEGRAM_TOKEN = process.env.NEXT_PUBLIC_TELEGRAM_TOKEN;
+  const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
   if (req.method === "POST") {
     const answer = await fetch(
       `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=175042839&text=${req.body}&parse_mode=HTML`

@@ -1,4 +1,4 @@
-const NEXT_PUBLIC_RECAPTCHA_SECRET_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SECRET_KEY;
+const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY;
 
 
 const handler = (req, res) => {
@@ -10,7 +10,7 @@ const handler = (req, res) => {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
           },
-          body: `secret=${NEXT_PUBLIC_RECAPTCHA_SECRET_KEY}&response=${req.body.gRecaptchaToken}`,
+          body: `secret=${RECAPTCHA_SECRET_KEY}&response=${req.body.gRecaptchaToken}`,
         })
           .then((reCaptchaRes) => reCaptchaRes.json())
           .then((reCaptchaRes) => {
