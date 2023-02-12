@@ -1,11 +1,13 @@
 export default async function sendTelegrammMessage(toSend) {
-  const TELEGRAM_TOKEN = process.env.NEXT_PUBLIC_TELEGRAM_TOKEN;
-
-  return await fetch(
-    `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage?chat_id=175042839&text=${JSON.stringify(
-      toSend
-    )}`
-  )
-    .then((response) => response.json());
+  const message = `Имя: ${toSend.name}, E-mail: ${toSend.email}, Сообщение: ${toSend.message}`
+  const response = await fetch("/api/tsm", {
+    method: "POST",
+    headers: {
+      Accept: "application/json, text/plain, */*",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(message),
+  })
+  return await response.json();
 
 }
