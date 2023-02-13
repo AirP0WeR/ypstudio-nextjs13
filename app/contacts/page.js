@@ -4,9 +4,10 @@ import toast, { Toaster } from "react-hot-toast";
 import contacts from "/public/images/contacts/contacts.jpg";
 import ReCAPTCHA from "react-google-recaptcha";
 import React from "react";
+import dbSaveMessage from "/components/dbSave";
 
-import telegramMessage from '/components/telegramMessage';
-import werifyCaptcha from '/components/werifyCaptcha';
+import telegramMessage from "/components/telegramMessage";
+import werifyCaptcha from "/components/werifyCaptcha";
 
 export default function Page() {
   const [name, setName] = useState("");
@@ -22,44 +23,42 @@ export default function Page() {
   const notifySuccess = () => toast.success("Сообщение успешно отправлено!");
   const notifyFail = () => toast.error("Что-то пошл не так!");
   const notifyNoCapcha = () => toast.error("Нажмите на галочку");
-  const NEXT_PUBLIC_RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+  const NEXT_PUBLIC_RECAPTCHA_SITE_KEY =
+    process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
+  const submitEnquiryForm = async () => {
+    const gReCaptchaToken = recaptchaRef.current.getValue();
 
+    if (gReCaptchaToken) {
+      // console.log(gReCaptchaToken);
+      // console.log("есть галочка, проверяю капчу");
+      const capchaStatus = await werifyCaptcha(gReCaptchaToken);
 
-const submitEnquiryForm = async () => {
-  const gReCaptchaToken = recaptchaRef.current.getValue();
+      // console.log(`Это статус капчи: ${capchaStatus.status}`);
 
-  if (gReCaptchaToken) {
-    // console.log(gReCaptchaToken);
-    // console.log("есть галочка, проверяю капчу");
-    const capchaStatus = await werifyCaptcha(gReCaptchaToken);
-
-    // console.log(`Это статус капчи: ${capchaStatus.status}`);
-
-    if (capchaStatus.status === "success") {
-      // отправить в телеграмм
-      // сделать тостер
-      const messageSendStatus = await telegramMessage(toSend);
-      if (messageSendStatus.ok === true) {
-        setName("Ваше имя");
-        setEmail("name@example.com");
-        setMessage("");
-        recaptchaRef.current.reset();
-        // console.log(`Это результат: ${messageStatus.ok}`);
-        notifySuccess();
+      if (capchaStatus.status === "success") {
+        // отправить в телеграмм
+        // сделать тостер
+        const messageSendStatus = await telegramMessage(toSend);
+        if (messageSendStatus.ok === true) {
+          dbSaveMessage(toSend);
+          setName("Ваше имя");
+          setEmail("name@example.com");
+          setMessage("");
+          recaptchaRef.current.reset();
+          // console.log(`Это результат: ${messageStatus.ok}`);
+          notifySuccess();
+        } else {
+          notifyFail();
+        }
       } else {
         notifyFail();
       }
     } else {
-      notifyFail();
+      notifyNoCapcha();
+      // console.log("нет галочки");
     }
-  } else {
-    notifyNoCapcha();
-    // console.log("нет галочки");
-  }
-};
-
-
+  };
 
   return (
     <div className="container">
@@ -117,14 +116,11 @@ const submitEnquiryForm = async () => {
             </div>
             <div className="row">
               <div className="col">
-
                 <ReCAPTCHA
                   ref={recaptchaRef}
                   sitekey={NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-                // onChange={onReCAPTCHAChange}
+                  // onChange={onReCAPTCHAChange}
                 />
-
-
               </div>
               <div className="col text-center">
                 <button
@@ -142,7 +138,5 @@ const submitEnquiryForm = async () => {
         </div>
       </div>
     </div>
-
-
   );
 }
