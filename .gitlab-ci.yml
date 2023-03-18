@@ -6,7 +6,11 @@ docker-build:
   #   - docker:dind
   before_script:
     - docker login  $CI_REGISTRY -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
-    - cp .env.example .env
+    - echo TELEGRAM_TOKEN=$TELEGRAM_TOKEN >> .env
+    - echo NEXT_PUBLIC_RECAPTCHA_SITE_KEY=$NEXT_PUBLIC_RECAPTCHA_SITE_KEY >> .env
+    - echo RECAPTCHA_SECRET_KEY=$RECAPTCHA_SECRET_KEY >> .env
+    - echo NEXT_PUBLIC_GA_MEASUREMENT_ID=$NEXT_PUBLIC_GA_MEASUREMENT_ID >> .env
+    - echo MONGODB_URI=$MONGODB_URI >> .env
   # Default branch leaves tag empty (= latest tag)
   # All other branches are tagged with the escaped branch name (commit ref slug)
   script:
