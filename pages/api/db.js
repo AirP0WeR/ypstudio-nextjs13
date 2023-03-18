@@ -1,8 +1,9 @@
 import clientPromise from "/lib/mongodb";
 
 export default async function handler(req, res) {
+  const CLIENT_DB = process.env.CLIENT_DB;
   const client = await clientPromise;
-  const db = client.db("ypstudio");
+  const db = client.db(CLIENT_DB);
 
   if (req.method === "POST") {
     const bodyObject = JSON.parse(req.body);
