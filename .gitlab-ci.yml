@@ -2,8 +2,8 @@ docker-build:
   # Use the official docker image.
   image: docker:latest
   stage: build
-  # services:
-  #   - docker:dind
+  services:
+    - docker:dind
   before_script:
     - docker login  $CI_REGISTRY -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
     - echo TELEGRAM_TOKEN=$TELEGRAM_TOKEN >> .env
@@ -31,6 +31,8 @@ docker-build:
         - Dockerfile
 deploy-to-prod:
   stage: deploy
+  services:
+    - docker:dind
   script:
     - eval $(ssh-agent -s)
     - echo "$SSH_PROD_SERVER_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
