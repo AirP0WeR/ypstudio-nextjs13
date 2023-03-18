@@ -29,7 +29,7 @@ export default function Page() {
               <p className="card-text" style={{ textAlign: "center" }}>
                 картина
                 <br />
-                "Доломиты", материал: холст/ масло, размер: диаметр 40см, 2020
+                {"Доломиты"}, материал: холст/ масло, размер: диаметр 40см, 2020
                 год.
                 <br />
                 <Link href="/contacts" className="link-secondary">
@@ -59,7 +59,7 @@ export default function Page() {
               <p className="card-text" style={{ textAlign: "center" }}>
                 картина
                 <br />
-                "Мак", материал: холст/ масло, размер: 80х70 см, 2005 год.
+                {"Мак"}, материал: холст/ масло, размер: 80х70 см, 2005 год.
                 <br />
                 <a href="/contacts" className="link-secondary">
                   узнать цену
@@ -88,7 +88,7 @@ export default function Page() {
               <p className="card-text" style={{ textAlign: "center" }}>
                 картина
                 <br />
-                "Цветы" , материал: холст/ масло, размер: 25х35 см, 2004 год.
+                {"Цветы"} , материал: холст/ масло, размер: 25х35 см, 2004 год.
                 <br />
                 <Link href="/contacts" className="link-secondary">
                   узнать цену
