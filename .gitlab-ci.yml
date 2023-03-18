@@ -11,6 +11,7 @@ docker-build:
     - echo RECAPTCHA_SECRET_KEY=$RECAPTCHA_SECRET_KEY >> .env
     - echo NEXT_PUBLIC_GA_MEASUREMENT_ID=$NEXT_PUBLIC_GA_MEASUREMENT_ID >> .env
     - echo MONGODB_URI=$MONGODB_URI >> .env
+    - echo TELEGRAM_USER_ID=$TELEGRAM_USER_ID >> .env
   # Default branch leaves tag empty (= latest tag)
   # All other branches are tagged with the escaped branch name (commit ref slug)
   script:
