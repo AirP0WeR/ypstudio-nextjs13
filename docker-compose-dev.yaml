@@ -1,0 +1,23 @@
+# Use root/example as user/password credentials
+version: '3.1'
+services:
+  ypstudio-dev:
+    container_name: ypstudio-dev
+    image: registry.gitlab.com/airp0wer/ypstudio-nextjs:dev
+    restart: unless-stopped
+    expose:
+      - 3000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ypstudio.rule=Host(`dev.ypstudio.ru`)"
+      - "traefik.http.routers.ypstudio.entrypoints=websecure"
+      - "traefik.http.services.ypstudio.loadbalancer.server.port=3000"
+      - "traefik.http.routers.ypstudio.tls.certresolver=myresolver"
+    networks:
+      - traefik
+networks:
+  traefik:
+    name: traefik
+
+
+
