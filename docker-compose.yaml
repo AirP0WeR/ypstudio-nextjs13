@@ -15,6 +15,10 @@ services:
       - "traefik.http.routers.ypstudio.entrypoints=websecure"
       - "traefik.http.services.ypstudio.loadbalancer.server.port=3000"
       - "traefik.http.routers.ypstudio.tls.certresolver=myresolver"
+      #- "traefik.http.services.ypstudio.loadbalancer.healthcheck.path=/"
+      #- "traefik.http.services.ypstudio.loadbalancer.healthcheck.interval=5s"
+      #- "traefik.http.services.ypstudio.loadbalancer.healthcheck.timeout=1s"
+      # - "traefik.http.services.ypstudio.loadbalancer.healthcheck.scheme=http"
     networks:
       - traefik
   mongo:
@@ -31,6 +35,7 @@ services:
       - "27017:27017"
     volumes:
       - 'mongodata:/data/db'
+      - 'mongodata:/data/configdb'
     networks:
       - traefik
   mongo-express:
