@@ -5,7 +5,7 @@ export default function Footer() {
         <p className="float-end mb-1">
           <a href="#" className="text-muted">Back to top</a>
         </p>
-        <p className="mb-1">Yulia Perezhogina &copy; 2017-2022</p>
+        <p className="mb-1">Yulia Perezhogina &copy; 2017-2023</p>
       </div>
     </footer>
   );
