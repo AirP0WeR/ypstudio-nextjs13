@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 export default function Header() {
   useEffect(() => {
-    import("bootstrap/dist/js/bootstrap");
+    import("bootstrap");
   }, []);
 
   return (

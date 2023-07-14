@@ -1,16 +1,23 @@
 {
   "name": "ypstudio-nextjs",
-  "version": "0.1.0",
+  "version": "1.1.0",
+  "description": "YPStudio desidn site + ecom shop",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3100",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
+  "author": "Anton Perezhogin",
+  "license": "MIT",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "bootstrap": "^5.2.3",
+    "cookie-parser": "^1.4.6",
+    "jsonwebtoken": "^9.0.1",
     "mongodb": "^5.1.0",
+    "mongoose": "^7.3.4",
     "next": "^13.4.9",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
