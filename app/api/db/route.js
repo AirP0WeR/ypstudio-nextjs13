@@ -4,11 +4,11 @@ import feedback from '../../../models/feedbackModel'
 
 export async function POST(request) {
   await connectDB();
-  const res = await request.json();
-  console.log(res);
-  const name = res.name;
-  const email = res.email;
-  const message = res.message;
+  const data = await request.json();
+  console.log(data);
+  const name = data.name;
+  const email = data.email;
+  const message = data.message;
   console.log(name, email, message);
 
   const feed = await feedback.create({
