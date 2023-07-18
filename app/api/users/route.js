@@ -50,7 +50,7 @@ export async function POST(request) {
         })
 
     } else {
-        return NextResponse.json({ message: "Invalid user data" }, { status: 400 }), generateToken;
+        return NextResponse.json({ message: "Invalid user data" }, { status: 400 });
     }
 
 }

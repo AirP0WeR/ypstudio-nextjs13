@@ -4,13 +4,13 @@ import generateToken from '../utils/generateToken.js';
 import { NextRequest } from 'next/server';
 
 
-const authUserTest = (req, res) => {
-  const { name, email, password } = req.body;
+// const authUserTest = (req, res) => {
+//   const { name, email, password } = req.body;
   
-  // console.log(NextRequest.body);
-  console.log(req.body);
-  res.status(200).json({ message: "Auth user"});
-};
+//   // console.log(NextRequest.body);
+//   console.log(req.body);
+//   res.status(200).json({ message: "Auth user"});
+// };
 
 // @desc    Auth user & get token
 // @route   POST /api/users/auth
