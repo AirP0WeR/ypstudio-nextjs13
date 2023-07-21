@@ -1,4 +1,4 @@
-import GAnalitycs from "@/components/gAnalitycs"
+import GAnalitycs from "@/lib/gAnalitycs"
 
 export default function DefaultTags() {
   return (

@@ -4,10 +4,10 @@ import toast, { Toaster } from "react-hot-toast";
 import contacts from "/public/images/contacts/contacts.jpg";
 import ReCAPTCHA from "react-google-recaptcha";
 import React from "react";
-import dbSaveMessage from "/components/dbSave";
+import dbSaveMessage from "@/utils/dbSave";
 
-import telegramMessage from "/components/telegramMessage";
-import werifyCaptcha from "/components/werifyCaptcha";
+import sendTelegrammMessage from "@/utils/telegramMessage";
+import werifyCaptcha from "@/utils/werifyCaptcha";
 
 export default function Page() {
   const [name, setName] = useState("");
@@ -36,10 +36,11 @@ export default function Page() {
 
       // console.log(`Это статус капчи: ${capchaStatus.status}`);
 
-      if (capchaStatus.status === "success") {
+      if (capchaStatus.success === true) {
         // отправить в телеграмм
         // сделать тостер
-        const messageSendStatus = await telegramMessage(toSend);
+
+        const messageSendStatus = await sendTelegrammMessage(toSend);
         if (messageSendStatus.ok === true) {
           dbSaveMessage(toSend);
           setName("Ваше имя");

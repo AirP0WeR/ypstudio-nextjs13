@@ -1,15 +1,16 @@
-import { NextResponse } from 'next/server';
 import connectDB from '@/config/db';
 import feedback from '../../../models/feedbackModel'
+import logHelper from '../../../utils/logHelper'
 
 export async function POST(request) {
   await connectDB();
   const data = await request.json();
-  console.log(data);
+
   const name = data.name;
   const email = data.email;
   const message = data.message;
-  console.log(name, email, message);
+
+  logHelper("DB request data" + name + email + message);
 
   const feed = await feedback.create({
     name,
@@ -17,6 +18,6 @@ export async function POST(request) {
     message,
   });
  
-  return Response.json({message: "Status ok"}, {status: 200 });
+  return Response.json({ ok: true }, {message: "Status ok"}, {status: 200 });
 
 }

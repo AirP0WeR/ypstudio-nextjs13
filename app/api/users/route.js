@@ -1,65 +1,51 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/config/db';
 import User from '../../../models/userModel';
-import jwt from 'jsonwebtoken';
 import logHelper from '@/utils/logHelper';
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "@/lib/auth";
 
+// Register new user to DB temp
 
 export async function POST(request) {
     await connectDB();
     const data = await request.json();
     logHelper(data);
-
     const name = data.name;
     const email = data.email;
-    const password = data.password;
+    const emailVerified = data.emailVerified;
+    const image = data.image;
+    const role = data.role;
     const userExists = await User.findOne({ email });
 
     if (userExists) {
         return NextResponse.json({ message: "User already exists" }, { status: 400 });
-    }
-
-    const user = await User.create({
-        name,
-        email,
-        password,
-    });
-
-    if (user) {
-        const newUser = user.id
-        console.log(newUser);
-        const token = jwt.sign({ newUser }, process.env.JWT_SECRET, {
-            expiresIn: '30d',
-        });
-        logHelper(token);
-
-
-        // Set JWT as an HTTP-Only cookie
-
-        const secure = process.env.NODE_ENV !== 'development';
-
-        return new Response('Hello, Next.js!', {
-            status: 201,
-            headers: {
-                'Set-Cookie': `token=${token}`,
-                'httpOnly': `true`,
-                'secure': `${secure}`,
-                'sameSite': 'strict',
-                'maxAge': 30 * 24 * 60 * 60 * 1000
-            },
-        })
-
     } else {
-        return NextResponse.json({ message: "Invalid user data" }, { status: 400 });
+        const user = await User.create({
+            name,
+            email,
+            emailVerified,
+            image,
+            role
+        });
+        return NextResponse.json({message: 'New user registred'}, {status: 201})
     }
 
 }
 
+// @desc    Get all users
+// @route   GET /api/users
+// @access  Private/Admin
 export async function GET() {
-    await connectDB();
-    const users = await User.find({});
-    logHelper(users);
-  
-    return Response.json(users);
-  
-  }
+    const session = await getServerSession(authOptions);
+    if (session?.user.role === "admin") {
+        // Signed in
+        await connectDB();
+        const users = await User.find({});
+        logHelper(users);
+        return NextResponse.json(users);
+      } else {
+        // Not Signed in
+        return NextResponse.json({ message: "Not autorized" }, {status: 401});
+      }
+}

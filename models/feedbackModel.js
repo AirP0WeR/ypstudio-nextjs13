@@ -20,6 +20,6 @@ const feedbackModel = mongoose.Schema(
   }
 );
 
-const feedback = mongoose.model('Feedback', feedbackModel);
+const feedback = mongoose.models.Feedback || mongoose.model('Feedback', feedbackModel);
 
 export default feedback;

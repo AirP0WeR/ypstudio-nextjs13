@@ -4,9 +4,6 @@ import ecolifter1 from "../../public/images/brandbook/ecolifter2.jpg"
 import ecolifter2 from "../../public/images/brandbook/ecolifter3.jpg"
 import ecolifter3 from "../../public/images/brandbook/ecolifter4.jpg"
 
-
-
-
 export default function Page() {
 
   return (
