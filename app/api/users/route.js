@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/config/db';
-import User from '../../../models/userModel';
+import User from '@/models/userModel';
 import logHelper from '@/utils/logHelper';
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth";
@@ -46,6 +46,6 @@ export async function GET() {
         return NextResponse.json(users);
       } else {
         // Not Signed in
-        return NextResponse.json({ message: "Not autorized" }, {status: 401});
+        return NextResponse.json({ message: "Not admin" }, {status: 401});
       }
 }

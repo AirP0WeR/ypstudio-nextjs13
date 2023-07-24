@@ -1,36 +1,25 @@
-import {
-  LoginButton,
-  LogoutButton,
-  ProfileButton,
-} from "@/components/buttons.component";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { User } from "@/components/user.component";
-
+import logHelper from '@/utils/logHelper';
+import Product from '@/models/productModel.js';
+import connectDB from '@/config/db';
+import Image from 'next/image';
 
 export default async function Home() {
-  const session = await getServerSession(authOptions);
-  console.log(session);
+  await connectDB();
+  const products = await Product.find({})
 
+  // logHelper(products)
+  
   return (
-    <main
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "70vh",
-      }}
-    >
-      <div>
-        <LoginButton />
-        <LogoutButton />
-        <ProfileButton />
-
-        <h1>Server Session</h1>
-        <pre>{JSON.stringify(session)}</pre>
-
-        <User />
+    <div className="container">
+      <div className="row">
+      {products.map((product) => (
+          <div className="col-4" key={product._id}>
+            <h1>{product.name}</h1>
+            <Image className="img-fluid" src={product.image} width={500} height={500} alt={product.name} />
+            <h2>Цена {product.price}</h2>
+          </div>
+      ))}
       </div>
-    </main>
+    </div>
   );
 }

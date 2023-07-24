@@ -2,7 +2,8 @@
 const nextConfig = {
   experimental: {
     appDir: true,
-    serverComponentsExternalPackages: ['react-bootstrap', 'mongodb', 'mongoose', 'sharp']
+    serverComponentsExternalPackages: ['react-bootstrap', 'mongodb', 'mongoose', 'sharp'],
+    serverActions: true
 
   },
   output: 'standalone', // for docker build
