@@ -38,7 +38,7 @@ export async function POST(request) {
 // @access  Private/Admin
 export async function GET() {
     const session = await getServerSession(authOptions);
-    if (session?.user.role === "admin") {
+    if (session?.user.role) {
         // Signed in
         await connectDB();
         const users = await User.find({});

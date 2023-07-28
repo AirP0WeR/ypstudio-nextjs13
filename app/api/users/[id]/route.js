@@ -12,7 +12,7 @@ import logHelper from "@/utils/logHelper"
 // @access  Private/Admin
 export async function GET(request, { params }) {
   const session = await getServerSession(authOptions);
-  if (session?.user.role === "admin") {
+  if (session?.user.role) {
     await connectDB();
     logHelper("Id " + params.id)
     try {
@@ -36,7 +36,7 @@ export async function GET(request, { params }) {
 
 export async function DELETE(request, { params }) {
   const session = await getServerSession(authOptions);
-  if (session?.user.role === "admin") {
+  if (session?.user.role) {
     await connectDB();
     logHelper("Id " + params.id)
     try {
@@ -60,7 +60,7 @@ export async function DELETE(request, { params }) {
 
 export async function PUT(request, { params }) {
   const session = await getServerSession(authOptions);
-  if (session?.user.role === "admin") {
+  if (session?.user.role) {
     await connectDB();
     const data = await request.json();
     logHelper("Id " + params.id)

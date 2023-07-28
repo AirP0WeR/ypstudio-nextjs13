@@ -8,7 +8,7 @@ export async function IsUserNavBar() {
         return (
             <AuthButton />
         )
-    } else if (session?.user.role === "admin") {
+    } else if (session?.user.role) {
         return (
            <AuthAdminButton /> 
         )

@@ -12,7 +12,6 @@ import {
   Container,
 } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
-import Message from '@/components/Message';
 
 export default function Page() {
   return (
@@ -20,9 +19,9 @@ export default function Page() {
       <Row>
       <Col md={8}>
         <h1>Корзина</h1>
-          <Message>
+
             Корзина пуста
-          </Message>
+
       </Col>
       <Col md={4}>
         <Card>

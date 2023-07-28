@@ -1,15 +1,27 @@
 "use client";
+import logHelper from "@/utils/logHelper";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from 'react';
+import { useState, useEffect  } from 'react';
 import { Navbar, Nav, Container, NavDropdown, Button, Offcanvas, Badge } from 'react-bootstrap';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
+
 
 export const HeaderBar = ({ children }) => {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const [cartCount, setCartCount] = useState("");
+
+    useEffect(() => {
+      // Perform localStorage action
+      const existing  = (JSON.parse(localStorage.getItem("cart")) !== null) ? JSON.parse(localStorage.getItem("cart")).cartItems.length : false;
+      setCartCount(existing)
+    }, [])
+
+
 
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
@@ -58,7 +70,7 @@ export const HeaderBar = ({ children }) => {
 
                         <Offcanvas.Body>
                             <Nav.Link href="/contacts">Написать мне</Nav.Link>
-                            <Nav.Link href="/cart"><FaShoppingCart /> Корзина</Nav.Link>
+                            <Nav.Link href="/cart"><FaShoppingCart /> Корзина {cartCount} </Nav.Link>
                             
                             { children }
 

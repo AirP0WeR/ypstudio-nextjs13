@@ -21,8 +21,8 @@ const userSchema = mongoose.Schema(
       required: false,
     },
     role: {
-      type: String,
-      default: 'user',
+      type: Boolean,
+      default: 'false',
     },
   },
   {

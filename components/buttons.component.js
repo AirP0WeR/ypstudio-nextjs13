@@ -4,7 +4,11 @@ import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import { deleteProduct } from '@/components/serverComponents/deleteProduct'
-import { useTransition } from 'react'
+// import { addProduct } from '@/components/serverComponents/addProduct'
+import { React, useTransition, useState } from 'react'
+import logHelper from '@/utils/logHelper';
+import { deleteUser } from "@/components/serverComponents/deleteUser"
+import {addToCartTest} from '@/utils/cartUtils';
 
 export const AuthButton = () => {
   return (
@@ -61,10 +65,10 @@ export const ProfileButton = () => {
   return <Link href="/profile">Профиль</Link>;
 };
 
-export const DeleteProductButton = (props, res) => {
+export const DeleteProductButton = (props) => {
   let [pending, startTransition] = useTransition()
   return (
-      <button type="button" disabled={pending} onClick={() => startTransition(() => deleteProduct(props.id, res))}>
+      <button type="button" disabled={pending} onClick={() => startTransition(() => deleteProduct(props.id))}>
         <FaTrash />
         <h6>{props.id}</h6>
       </button>
@@ -80,5 +84,38 @@ export const EditProductButton = (props) => {
           <h6>{props.id}</h6>
       </button>
      </Link>
+  )
+};
+
+
+export const DeleteUserButton = (props) => {
+  let [pending, startTransition] = useTransition()
+  return (
+      <button type="button" className='btn btn-danger' disabled={pending} onClick={() => startTransition(() => deleteUser(props.id))}>
+        <FaTrash />
+        <h6>{props.id}</h6>
+      </button>
+  )
+};
+
+export const EditUserButton = (props) => {
+  return (
+    <Link href={`/admin/user/${props.id}`}>
+      <button variant='light' type="button" className='btn mx-2'>
+          <FaEdit />
+          <h6>{props.id}</h6>
+      </button>
+     </Link>
+  )
+};
+
+
+export const AddToCart = (props) => {
+  return (
+    <Link href={`/cart`}>
+      <button type="button" className='btn mx-2' onClick={() => addToCartTest(props)}>
+          <h6>В корзину</h6>
+      </button>
+    </Link>
   )
 };
